@@ -1,26 +1,69 @@
 // src/components/TodoList.js
 
 import React from "react";
-import TodoItem from "./TodoItem";
 
-const TodoList = ({ todos, onToggleCompleted, onDeleteTodo, editingTodoId, onSetEditingTodoId, onUpdateTodo }) => {
-  if (todos.length === 0) {
-    return <p>Tidak ada tugas yang ditemukan. Silakan tambahkan satu.</p>;
-  }
-
+const TodoList = ({ todos, onToggleCompleted, onDeleteTodo, onEditTodo }) => {
   return (
-    <ul style={{ listStyleType: "none", padding: 0 }}>
+    <ul style={{ listStyle: "none", padding: 0 }}>
       {todos.map((todo) => (
-        <TodoItem
+        <li
           key={todo.id}
-          todo={todo}
-          onToggleCompleted={onToggleCompleted}
-          onDeleteTodo={onDeleteTodo}
-          // Teruskan props baru ke TodoItem
-          isEditing={editingTodoId === todo.id}
-          onSetEditingTodoId={onSetEditingTodoId}
-          onUpdateTodo={onUpdateTodo}
-        />
+          style={{
+            margin: "10px 0",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <span
+            style={{
+              textDecoration: todo.completed ? "line-through" : "none",
+              fontWeight: "bold",
+            }}
+          >
+            {todo.task}
+          </span>
+          <div>
+            <button
+              style={{
+                backgroundColor: "#4CAF50",
+                color: "white",
+                border: "none",
+                padding: "5px 10px",
+                marginRight: "5px",
+                cursor: "pointer",
+              }}
+              onClick={() => onToggleCompleted(todo.id, todo.completed)}
+            >
+              {todo.completed ? "Batal" : "Selesai"}
+            </button>
+            <button
+              style={{
+                backgroundColor: "#2196F3",
+                color: "white",
+                border: "none",
+                padding: "5px 10px",
+                marginRight: "5px",
+                cursor: "pointer",
+              }}
+              onClick={() => onEditTodo(todo)}
+            >
+              Edit
+            </button>
+            <button
+              style={{
+                backgroundColor: "#f44336",
+                color: "white",
+                border: "none",
+                padding: "5px 10px",
+                cursor: "pointer",
+              }}
+              onClick={() => onDeleteTodo(todo.id)}
+            >
+              Hapus
+            </button>
+          </div>
+        </li>
       ))}
     </ul>
   );
